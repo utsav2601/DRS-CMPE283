@@ -148,7 +148,7 @@ public class DRS
 	
 	public static String addingNewHost()
     {
-        String ip="130.65.133.";
+        String ip="130.65.133.14";
         try 
         {    
 

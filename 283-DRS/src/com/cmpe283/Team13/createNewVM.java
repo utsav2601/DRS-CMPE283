@@ -22,7 +22,7 @@ import com.vmware.vim25.mo.VirtualMachine;
 public class createNewVM {
 	VMURLS vmurlTeam = new VMURLS();
 	
-	private String dcName = "Team19_DC_new";
+	private String dcName = "Team13";
 	private String ip;
 	private Folder rootFolder;
 	//private long diskSizeKB = 60000;
@@ -64,7 +64,7 @@ public class createNewVM {
 			
 			ServiceInstance si = vmurlTeam.getServiceInstanceTeam();
 			this.rootFolder = vmurlTeam.getRootFolderTeam();
-			VirtualMachine	vm = (VirtualMachine) new InventoryNavigator(this.rootFolder).searchManagedEntity("VirtualMachine", "T19-FinalTemplate");// Template Name
+			VirtualMachine	vm = (VirtualMachine) new InventoryNavigator(this.rootFolder).searchManagedEntity("VirtualMachine", "VM1");// Template Name
 			
 			Datacenter dc = (Datacenter) new InventoryNavigator(this.rootFolder).searchManagedEntity("Datacenter", dcName);
 			ManagedEntity host =new InventoryNavigator(this.rootFolder).searchManagedEntity("HostSystem", ip);

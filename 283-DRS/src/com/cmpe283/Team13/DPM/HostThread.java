@@ -98,7 +98,8 @@ long a=0;
 						
 							for (int k = 0; k < longs.length; k++) {
 								System.out.println(infos[k].getTimestamp().getTime() + " : " + longs[k]);
-								return longs[0];
+								System.out.println("label " + pcis3[j].getUnitInfo().getLabel());
+								return longs[k];
 							}
 							
 						//	return metric_value;

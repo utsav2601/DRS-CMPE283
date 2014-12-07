@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 
 
 
+
 import com.vmware.vim25.ComputeResourceConfigSpec;
 import com.vmware.vim25.HostConnectSpec;
 import com.vmware.vim25.HostVMotionCompatibility;
@@ -70,12 +71,26 @@ public class DRS2 {
 			//hs.setSslThumbprint("90:BD:8C:C1:4E:F6:E9:A3:1A:DF:4B:FA:16:6B:9A:0D:73:DC:6A:F7");
 			ComputeResourceConfigSpec crcs = new ComputeResourceConfigSpec();
 			Task t = dc.getHostFolder().addStandaloneHost_Task(hs,crcs, true);
+			
 			if(t.waitForTask() == t.SUCCESS)
 			{
 				System.out.println("==============================================================");
 				System.out.println("vHost is added successfully");
 				System.out.println("==============================================================");
+				HostSystem newHost = (HostSystem) new InventoryNavigator(rootFolder).searchManagedEntity("HostSystem",ip);
+				System.out.println("Exiting Maintenance Mode... ");
+				Task m_task = newHost.exitMaintenanceMode(600);
+				String status= m_task.waitForTask();
+				if (status==Task.SUCCESS)
+				{
+					Thread.sleep(20000);
+					System.out.println("New Host " + ip + " is out of Maintainence Mode now");
+			//	host.shutdownHost_Task(true);
+				}
+				else 
+					System.out.println("Host can't enter maintainance mode");
 			}
+				
 			else
 			{
 				System.out.println("There is some error in adding host");

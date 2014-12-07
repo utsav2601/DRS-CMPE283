@@ -120,6 +120,7 @@ long a=0;
 				
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Connection Timed out");
 		}
 		return a;
 

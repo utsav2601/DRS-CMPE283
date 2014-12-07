@@ -152,11 +152,11 @@ public class DPMFunctions {
 			//host.getHostCpuSchedulerSystem();
 			if (host.getVms().length==0)
 			{
-				Task m_task = host.enterMaintenanceMode(60000, false);
+				Task m_task = host.enterMaintenanceMode(600, false);
 				String status= m_task.waitForTask();
 				if (status==Task.SUCCESS)
 				{
-				host.shutdownHost_Task(true);
+			//	host.shutdownHost_Task(true);
 				}
 				else 
 					System.out.println("Host can't enter maintainance mode");

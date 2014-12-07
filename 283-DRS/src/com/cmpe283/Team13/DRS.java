@@ -160,7 +160,7 @@ public class DRS
             hs.userName ="root";
             hs.password = "12!@qwQW";
             hs.managementIp = "130.65.133.10";
-            hs.setSslThumbprint("A9:96:0D:D4:6B:C4:27:22:05:DD:EF:30:5F:10:62:8F:4B:83:FF:64");
+            hs.setSslThumbprint("58:BC:09:CD:90:4F:65:29:DF:A0:B2:B6:86:6E:92:84:37:52:EB:E7");
             //hs.setSslThumbprint("9f:02:9D:6A:91:C6:EB:9A:14:5D:BD:13:39:C8:23:BE:3F:C9:46:3A");
             //hs.setSslThumbprint("C5:EF:CA:98:96:80:6D:2E:46:CB:B1:D2:BB:87:4A:18:AF:26:83:20");
             //hs.setSslThumbprint("90:BD:8C:C1:4E:F6:E9:A3:1A:DF:4B:FA:16:6B:9A:0D:73:DC:6A:F7");

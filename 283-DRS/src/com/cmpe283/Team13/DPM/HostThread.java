@@ -101,11 +101,9 @@ long a=0;
 								return longs[0];
 							}
 							
-							
 						//	return metric_value;
 						}
-					
-					}
+					} 
 					si.getServerConnection().logout();
 				
 		} catch (Exception e) {

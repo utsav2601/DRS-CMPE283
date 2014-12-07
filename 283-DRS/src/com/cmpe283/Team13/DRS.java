@@ -205,7 +205,7 @@ public class DRS
 				r[i].setVhost(hosts[i]);
 				r[i].setCpu(a);
 				r[i].setCpuper(b);
-				System.out.println(hosts[i]+" : "+ b+ "% usage..");
+				System.out.println(hosts[i]+ " : "+ b+ "% usage..");
 			}
 			comparehosts(r);
 			

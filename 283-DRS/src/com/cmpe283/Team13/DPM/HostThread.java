@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
-
 import java.util.ArrayList;
-
 import java.util.HashMap;
-import com.vmware.vim25.InvalidProperty;
 
+import com.vmware.vim25.InvalidProperty;
+import com.vmware.vim25.PerfCounterInfo;
 import com.vmware.vim25.PerfEntityMetric;
 import com.vmware.vim25.PerfEntityMetricBase;
 import com.vmware.vim25.PerfMetricId;
@@ -17,11 +16,10 @@ import com.vmware.vim25.PerfMetricIntSeries;
 import com.vmware.vim25.PerfMetricSeries;
 import com.vmware.vim25.PerfProviderSummary;
 import com.vmware.vim25.PerfQuerySpec;
-
+import com.vmware.vim25.PerfSampleInfo;
 import com.vmware.vim25.RuntimeFault;
 import com.vmware.vim25.mo.HostSystem;
 import com.vmware.vim25.mo.InventoryNavigator;
-
 import com.vmware.vim25.mo.PerformanceManager;
 import com.vmware.vim25.mo.ServiceInstance;
 
@@ -76,33 +74,35 @@ long a=0;
 							list.add(perfMetricId);
 						}
 					}
-					PerfMetricId[] pmis = list.toArray(new PerfMetricId[list
-							.size()]);
+					PerfMetricId[] pmis = list.toArray(new PerfMetricId[list.size()]);
 					PerfQuerySpec qSpec = new PerfQuerySpec();
 					qSpec.setEntity(host.getMOR());
 					qSpec.setMetricId(pmis);
-
+					qSpec.setMaxSample(new Integer(1));
 					qSpec.intervalId = perfInterval;
+					//qSpec.intervalId = perfInterval;
 					PerfEntityMetricBase[] pembs = perfMgr
 							.queryPerf(new PerfQuerySpec[] { qSpec });
-					
-					
+					PerfCounterInfo[] pcis3 = perfMgr.getPerfCounter();
 					
 					for (int i = 0; pembs != null && i < pembs.length; i++) {
-
 						PerfEntityMetricBase val = pembs[i];
 						PerfEntityMetric pem = (PerfEntityMetric) val;
 						PerfMetricSeries[] vals = pem.getValue();
-//						
-						
+						PerfSampleInfo[] infos = pem.getSampleInfo();
+						System.out.println("Host Name " + host.getName());
 						for (int j = 0; vals != null && j < vals.length; ++j) {
 							PerfMetricIntSeries val1 = (PerfMetricIntSeries) vals[j];
 							long[] longs = val1.getValue();
-							System.out.println("Host CPU :"+ longs[5]);
-							return longs[5];
-							//infoList.put(aName[0],String.valueOf(longs[5]));
 							
+						
+							for (int k = 0; k < longs.length; k++) {
+								System.out.println(infos[k].getTimestamp().getTime() + " : " + longs[k]);
+							}
+							
+						//	return metric_value;
 						}
+					
 					}
 					si.getServerConnection().logout();
 				

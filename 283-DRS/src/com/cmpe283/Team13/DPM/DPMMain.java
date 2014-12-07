@@ -37,7 +37,7 @@ public class DPMMain {
 			for(String str : hostList)
 			{
 				try{
-					
+					System.out.println("hostList" +str);
 				h=new HostThread(str);
 				hostMetrics.put(str, h.run());
 				//hostCpuCount.add(h.run());
@@ -75,7 +75,12 @@ public class DPMMain {
 				}
 				
 			}
-			} catch (Exception e) {e.printStackTrace();}
+			} catch (Exception e) {
+				System.out.println("Error in getting VM name" );
+				e.printStackTrace();
+			
+			
+			}
 			// Collections.sort(hostCpuCount);
 			 //hostCpuCount.get(hostCpuCount.size()-1);
 			dpm.poweroffhost(host.getName());

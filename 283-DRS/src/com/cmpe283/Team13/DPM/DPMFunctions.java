@@ -92,6 +92,7 @@ public class DPMFunctions {
 		String vmName="";
 		for(String str : hostList)
 		{
+			System.out.println("Getting VMs in HOST" + str);
 			try{
 				HostThread h;
 			h=new HostThread(str);
@@ -221,11 +222,9 @@ public class DPMFunctions {
     		String[] hostnames= new String[hosts.length];
 			for(int i=0;i<hosts.length;i++)
 			{
+				hostnames[i]=hosts[i].getName();
 				
 				
-					hostnames[i]=hosts[i].getName();
-				
-				//System.out.println(hostnames[i]);
 			}
 			return hostnames;
     		
@@ -257,11 +256,14 @@ public class DPMFunctions {
     		//System.out.println("Lists of new hosts: ");
     		//System.out.println(hosts.length);
     		String[] hostnames= new String[hosts.length];
-			for(int i=0;i<hosts.length;i++)
+    		System.out.println("Host length" + hosts.length);
+			int count = 0;
+    		for(int i=0;i<hosts.length;i++)
 			{
-				if(((HostSystem)hosts[i]).getVms().length>0)
-				{
+				if(((HostSystem)hosts[i]).getVms().length>=0)
+				{	
 					hostnames[i]=hosts[i].getName();
+					System.out.println("Host Name "+hosts[i].getName());
 				}
 				//System.out.println(hostnames[i]);
 			}
@@ -271,9 +273,11 @@ public class DPMFunctions {
     	catch(Exception e)
     	{
     		System.out.println(e.toString());
+    		System.out.println("Error in getting hosts");
+    		return sample;
     	}
     	
-    	return sample;
+    	
 	}
 	
 	//Added new 

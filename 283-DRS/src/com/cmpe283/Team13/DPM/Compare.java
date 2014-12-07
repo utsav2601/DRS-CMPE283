@@ -21,8 +21,7 @@ public class Compare implements Comparator<Object> {
         if (map.get(o2) == map.get(o1))
             return 1;
         else
-            return ((Long) map.get(o2)).compareTo((Long)     
-                                                            map.get(o1));
+            return ((Long) map.get(o2)).compareTo((Long)map.get(o1));
 
     }
 	

@@ -47,7 +47,7 @@ public class DPMFunctions {
 
             @Override
             public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-                return o1.getValue().compareTo(o2.getValue());
+                return o2.getValue().compareTo(o1.getValue());
             }
         });
       
@@ -84,7 +84,7 @@ public class DPMFunctions {
    
     }
 
-	public  String getAllHostMeticsSorted() throws Exception
+	public  String getAllHostMeticsSorted() 
 	{
 		String[] hostList=DPMFunctions.getAllHosts();
 		Map<String, Long> hostMetrics = new HashMap<String, Long>();
@@ -92,10 +92,11 @@ public class DPMFunctions {
 		String vmName="";
 		for(String str : hostList)
 		{
-			System.out.println("Getting VMs in HOST" + str);
+			
 			try{
 				HostThread h;
 			h=new HostThread(str);
+		//	System.out.println("Getting VMs in HOST" + str + "Value " + h.run());
 			hostMetrics.put(str, h.run());
 			//hostCpuCount.add(h.run());
 			
@@ -114,6 +115,7 @@ public class DPMFunctions {
 			System.out.println("==============================================================");
 	      	host=DPMFunctions.getHost(key);
 		}
+	    try{
 		VirtualMachine[] virtualmachine = host.getVms();
 		
 		for (VirtualMachine vm : virtualmachine){
@@ -124,6 +126,7 @@ public class DPMFunctions {
 		Map<String, Long> newVmMap = new TreeMap<String, Long>(comparatorVM);
 	    newVmMap.putAll(vmMetrics);
 	    Iterator iterVm = newVmMap.keySet().iterator();
+	    
 	    if(iterVm.hasNext()) {
 			String key=(String)iterVm.next();
 			System.out.println("==============================================================");
@@ -132,7 +135,10 @@ public class DPMFunctions {
 			vmName=key;  
 		}
 	    
-	    
+	    }catch(Exception e)
+	    {
+	    	
+	    }
 	    
 	    return vmName; 
 	}

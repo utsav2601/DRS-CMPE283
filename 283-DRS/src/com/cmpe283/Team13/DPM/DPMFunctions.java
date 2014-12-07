@@ -47,7 +47,7 @@ public class DPMFunctions {
 
             @Override
             public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-                return o2.getValue().compareTo(o1.getValue());
+                return o1.getValue().compareTo(o2.getValue());
             }
         });
       
@@ -152,11 +152,11 @@ public class DPMFunctions {
 			//host.getHostCpuSchedulerSystem();
 			if (host.getVms().length==0)
 			{
-				Task m_task = host.enterMaintenanceMode(600, false);
+				Task m_task = host.enterMaintenanceMode(2000, false);
 				String status= m_task.waitForTask();
 				if (status==Task.SUCCESS)
 				{
-			//	host.shutdownHost_Task(true);
+				//host.shutdownHost_Task(true);
 				}
 				else 
 					System.out.println("Host can't enter maintainance mode");

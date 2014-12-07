@@ -28,6 +28,7 @@ public class DPMMain {
 			DPMFunctions dpm = new DPMFunctions();
 			HostThread h;
 			Map<String, Long> hostMetrics = new HashMap<String, Long>();
+			Map<String, Long> sortedMetrics = new HashMap<String, Long>();
 			//List<Long> hostCpuCount = new ArrayList<Long>();
 			//String[] hostListTest=DPMFunctions.getAllHostsNew();
 			
@@ -44,14 +45,15 @@ public class DPMMain {
 				
 				}catch(Exception e){e.printStackTrace();}
 			}
-			sortByValues(hostMetrics);
+			 sortedMetrics=compareEntities(hostMetrics);
 			HostSystem  host=null;
 			HostSystem host2=null;
-			Iterator iter = hostMetrics.keySet().iterator();
+			Iterator<String> iter = sortedMetrics.keySet().iterator();
 			if(iter.hasNext()) {
-				String key=(String)iter.next();
-				
-				host=DPMFunctions.getHost(key);    
+				String key=iter.next();
+				System.out.println("key " + key);
+				host=DPMFunctions.getHost(key);
+				System.out.println("Host to be shut down " + host.getName());
 			}
 			
 			try {
@@ -61,7 +63,7 @@ public class DPMMain {
 				// TODO Auto-generated catch block
 			if(iter.hasNext())
 			{
-				String key=(String)iter.next();
+				String key=iter.next();
 				host2=DPMFunctions.getHost(key);
 			}
 			for(VirtualMachine vm : virtualMachine)
@@ -94,26 +96,27 @@ public class DPMMain {
 	}
 	
 	
-	
-	  public static <K extends Comparable,V extends Comparable> Map<K,V> sortByValues(Map<K,V> map){
-	        List<Map.Entry<K,V>> entries = new LinkedList<Map.Entry<K,V>>(map.entrySet());
-	      
-	        Collections.sort(entries, new Comparator<Map.Entry<K,V>>() {
 
-	            @Override
-	            public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-	                return o1.getValue().compareTo(o2.getValue());
+	  public static Map<String, Long> compareEntities(Map<String, Long> entityCpuResults){
+			List<Entry<String, Long>> list = new LinkedList<Entry<String, Long>>(entityCpuResults.entrySet());
+
+	        // Sorting the list based on values
+	        Collections.sort(list, new Comparator<Entry<String, Long>>()
+	        {
+	            public int compare(Entry<String, Long> o1,
+	                    Entry<String, Long> o2)
+	            {
+	               return o1.getValue().compareTo(o2.getValue());
 	            }
 	        });
-	      
-	        //LinkedHashMap will keep the keys in the order they are inserted
-	        //which is currently sorted on natural ordering
-	        Map<K,V> sortedMap = new LinkedHashMap<K,V>();
-	      
-	        for(Map.Entry<K,V> entry: entries){
+
+	        Map<String, Long> sortedMap = new LinkedHashMap<String, Long>();
+	        for (Entry<String, Long> entry : list)
+	        {
 	            sortedMap.put(entry.getKey(), entry.getValue());
 	        }
-	      
 	        return sortedMap;
-	    }
+		}
+
+
 }

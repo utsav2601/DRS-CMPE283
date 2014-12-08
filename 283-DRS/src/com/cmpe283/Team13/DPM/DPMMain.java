@@ -44,40 +44,39 @@ public class DPMMain {
 				hostMetrics.put(str, h.run());
 				//hostCpuCount.add(h.run());
 				
-				}catch(Exception e){e.printStackTrace();}
+				}catch(Exception e){
+					System.out.println("DPM-Main 0x1234 ERROR CONNECTION");
+					e.printStackTrace();}
 			}
 			 sortedMetrics=compareEntities(hostMetrics);
 			HostSystem  host=null;
 			HostSystem host2=null;
 			//Iterator<String> iter = sortedMetrics.keySet().iterator();
 			Iterator<Entry<String, Long>> iter2 = sortedMetrics.entrySet().iterator();
-			
-			if(iter2.hasNext()) {
+			Boolean flag = false;
+			while(iter2.hasNext()) {
 				Map.Entry pairs = (Map.Entry)iter2.next();
 			    System.out.println("Host " +pairs.getKey() + " = " + pairs.getValue());
 				String key=pairs.getKey().toString();
-				
-				
 				Integer k = (int)(long)pairs.getValue();
 				Integer checkCondition = k/4786* 100;
 				//Check the 30% condition 
 				if( checkCondition < conditionPerc  ){
 				host=DPMFunctions.getHost(key);
-				System.out.println("Host to be shut down " + host.getName());
+				
+				flag = true;
+				}
+				else {
+					System.out.println("Looking for unused host ");
 				}
 			}
 			
 			
-//			if(iter.hasNext()) {
-//				
-//		      
-//				String key=iter.next();
-//				System.out.println("val ++ "  );
-//				System.out.println("key " + key);
-//				host=DPMFunctions.getHost(key);
-//				System.out.println("Host to be shut down " + host.getName());
-//			}
-			
+			//if host < 30% usage is found 
+			if(flag == true){
+				
+				System.out.println("Host to be shut down " + host.getName());
+				
 			try {
 				VirtualMachine[] virtualMachine=host.getVms();
 				DPMFunctions dpm2= new DPMFunctions();
@@ -87,8 +86,18 @@ public class DPMMain {
 			{
 				
 				String key=iter2.next().toString();
+				
 				//System.out.println("New key " + key);
 				host2=DPMFunctions.getHost(key);
+				System.out.println("Target Host " + host2.getName());
+			}else {
+				//if the host is present then find the new target host 
+				Iterator<Entry<String, Long>> iter3 = sortedMetrics.entrySet().iterator();
+				Map.Entry pairs = (Map.Entry)iter3.next();
+			   // System.out.println("Host " +pairs.getKey() + " = " + pairs.getValue());
+				host2=DPMFunctions.getHost(pairs.getKey().toString());
+				System.out.println("Target Host " + host2.getName());
+				
 			}
 			for(VirtualMachine vm : virtualMachine)
 			{
@@ -102,19 +111,20 @@ public class DPMMain {
 				
 			}
 			} catch (Exception e) {
-				System.out.println("Error in getting VM name" );
+				System.out.println("DPM-MAIN 0X1236 Error in getting VM name" );
 				e.printStackTrace();
 			
 			
 			}
-			// Collections.sort(hostCpuCount);
-			 //hostCpuCount.get(hostCpuCount.size()-1);
 			dpm.poweroffhost(host.getName());
-			
+			}//no host <30% found 
+			else {
+				System.out.println("No host with less 30% usage found ");
+			}
 		}while(DPMFunctions.getAllHostsNew().length>1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("Error getting 0x123  ");
+			System.out.println("Error DPM-MAIN 0x1235  ");
 			e.printStackTrace();
 		}
 		

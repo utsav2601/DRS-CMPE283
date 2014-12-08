@@ -156,7 +156,7 @@ public class DPMFunctions {
 				String status= m_task.waitForTask();
 				if (status==Task.SUCCESS)
 				{
-				//host.shutdownHost_Task(true);
+				host.shutdownHost_Task(true);
 				}
 				else 
 					System.out.println("Host can't enter maintainance mode");

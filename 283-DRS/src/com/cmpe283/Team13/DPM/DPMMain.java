@@ -24,6 +24,7 @@ public class DPMMain {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		Integer conditionPerc = 30;
 		try {
 			DPMFunctions dpm = new DPMFunctions();
 			HostThread h;
@@ -48,22 +49,45 @@ public class DPMMain {
 			 sortedMetrics=compareEntities(hostMetrics);
 			HostSystem  host=null;
 			HostSystem host2=null;
-			Iterator<String> iter = sortedMetrics.keySet().iterator();
-			if(iter.hasNext()) {
-				String key=iter.next();
-				System.out.println("key " + key);
+			//Iterator<String> iter = sortedMetrics.keySet().iterator();
+			Iterator<Entry<String, Long>> iter2 = sortedMetrics.entrySet().iterator();
+			
+			if(iter2.hasNext()) {
+				Map.Entry pairs = (Map.Entry)iter2.next();
+			    System.out.println("Host " +pairs.getKey() + " = " + pairs.getValue());
+				String key=pairs.getKey().toString();
+				
+				
+				Integer k = (int)(long)pairs.getValue();
+				Integer checkCondition = k/4786* 100;
+				//Check the 30% condition 
+				if( checkCondition < conditionPerc  ){
 				host=DPMFunctions.getHost(key);
 				System.out.println("Host to be shut down " + host.getName());
+				}
 			}
+			
+			
+//			if(iter.hasNext()) {
+//				
+//		      
+//				String key=iter.next();
+//				System.out.println("val ++ "  );
+//				System.out.println("key " + key);
+//				host=DPMFunctions.getHost(key);
+//				System.out.println("Host to be shut down " + host.getName());
+//			}
 			
 			try {
 				VirtualMachine[] virtualMachine=host.getVms();
 				DPMFunctions dpm2= new DPMFunctions();
 				DRS2 drs2=new DRS2();
 				// TODO Auto-generated catch block
-			if(iter.hasNext())
+			if(iter2.hasNext())
 			{
-				String key=iter.next();
+				
+				String key=iter2.next().toString();
+				//System.out.println("New key " + key);
 				host2=DPMFunctions.getHost(key);
 			}
 			for(VirtualMachine vm : virtualMachine)
@@ -88,8 +112,9 @@ public class DPMMain {
 			dpm.poweroffhost(host.getName());
 			
 		}while(DPMFunctions.getAllHostsNew().length>1);
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			System.out.println("Error getting 0x123  ");
 			e.printStackTrace();
 		}
 		
